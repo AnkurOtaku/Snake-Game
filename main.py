@@ -15,8 +15,10 @@ screen.tracer(0)
 
 snake = Snake()
 food = Food()
+
 scoreboard = Scoreboard()
 
+food.refresh(snake)
 is_game_on = False
 
 def start_game():
@@ -26,23 +28,31 @@ def start_game():
     scoreboard.show_score()
 
     while is_game_on:
-        screen.update()
         time.sleep(0.1)
         snake.move()
+        screen.update()
 
         if snake.head.distance(food) < 15:
-            food.refresh()
+            food.refresh(snake)
             scoreboard.increase_score()
             snake.extend()
 
         if snake.head.xcor() > WIDTH/2-20 or snake.head.xcor() < -1*WIDTH/2+20 or snake.head.ycor() > HEIGHT/2-20 or snake.head.ycor() < -1*HEIGHT/2+20:
             is_game_on = False
             scoreboard.game_over()
+            for segment in snake.segments:
+                segment.clear()
+                segment.reset()
+            snake.__init__()
 
         for segment in snake.segments[1:]:
             if snake.head.distance(segment) < 10 :
                 is_game_on = False
                 scoreboard.game_over()
+                for segment in snake.segments:
+                    segment.clear()
+                    segment.reset()
+                snake.__init__()
 
 screen.listen()
 screen.onkey(snake.up, "Up")
