@@ -3,7 +3,7 @@ from turtle import Turtle
 STARTING_POSITIONS = [(0, 0), (-20, 0), (-40, 0)]
 # snake
 MOVE_DISTANCE = 20
-COLOR = 'white'
+COLOR = 'green'
 SHAPE = 'square'
 WIDTH = 20
 
@@ -27,7 +27,10 @@ class Snake:
 
     def create_segment(self,pos):
         new_segment = Turtle(shape=SHAPE)
-        new_segment.color(COLOR)
+        if pos == (0,0):
+            new_segment.color('red')
+        else:
+            new_segment.color(COLOR)
         new_segment.width(WIDTH)
         new_segment.penup()
         new_segment.goto(pos)
@@ -42,6 +45,12 @@ class Snake:
             new_y = self.segments[seg - 1].ycor()
             self.segments[seg].goto(new_x, new_y)
         self.head.forward(MOVE_DISTANCE)
+
+    def reset(self):
+        for segment in self.segments:
+            segment.clear()
+            segment.reset()
+        self.__init__()
 
     def up(self):
         if self.head.heading() != DOWN:

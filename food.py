@@ -13,10 +13,10 @@ class Food(Turtle):
     def refresh(self, snake):
         random_x = random.randint(-280, 280)
         random_y = random.randint(-280, 280)
+        self.goto(random_x, random_y)
 
         # refresh food when food generates on snake segments
-        for segment in snake.segments[1:]:
-            if self.distance(segment) < 10 :
+        for segment in snake.segments:
+            if self.distance(segment.pos()) < 10 :
+                print(f'food: {self.pos()},seg: {segment.pos()}')
                 self.refresh(snake)
-
-        self.goto(random_x, random_y)

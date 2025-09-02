@@ -22,6 +22,7 @@ food.refresh(snake)
 is_game_on = False
 
 def start_game():
+    snake.reset()
     global is_game_on
     is_game_on = True
     scoreboard.clear()
@@ -40,19 +41,11 @@ def start_game():
         if snake.head.xcor() > WIDTH/2-20 or snake.head.xcor() < -1*WIDTH/2+20 or snake.head.ycor() > HEIGHT/2-20 or snake.head.ycor() < -1*HEIGHT/2+20:
             is_game_on = False
             scoreboard.game_over()
-            for segment in snake.segments:
-                segment.clear()
-                segment.reset()
-            snake.__init__()
 
         for segment in snake.segments[1:]:
             if snake.head.distance(segment) < 10 :
                 is_game_on = False
                 scoreboard.game_over()
-                for segment in snake.segments:
-                    segment.clear()
-                    segment.reset()
-                snake.__init__()
 
 screen.listen()
 screen.onkey(snake.up, "Up")
